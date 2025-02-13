@@ -1,5 +1,4 @@
-import requests
-from flask import Flask, render_template, g
+from flask import Flask, render_template
 from dotenv import load_dotenv
 import os
 
