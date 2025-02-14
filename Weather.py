@@ -27,11 +27,10 @@ class Weather:
         
         params = {'q':city}
         url = self._make_url(path, params)
-        print("-->", city, url)
         
         res = requests.get(url)
-        
-        return res.json()
+        data = self._simplify(res.json())
+        return data
     
     def forcast(slef, city:str):
         # TODO
@@ -44,6 +43,13 @@ class Weather:
         
         res = requests.get(url)
         return res.json()
-
-
+    
+    def _simplify(self, data):
+        del data['location']['lat']
+        del data['location']['lon']
+        del data['location']['localtime_epoch']
         
+        return data
+        
+        
+
