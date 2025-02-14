@@ -22,18 +22,16 @@ class Weather:
         return url
         
     # Return current weather of cities
-    def current(self, *cities):
+    def current(self, city):
         path = Weather.path['current']
-        result = []
-        for city in cities:
-            params = {'q':city}
-            url = self._make_url(path, params)
-            print("-->", city, url)
-            
-            res = requests.get(url)
-            result.append(res.json())
         
-        return result
+        params = {'q':city}
+        url = self._make_url(path, params)
+        print("-->", city, url)
+        
+        res = requests.get(url)
+        
+        return res.json()
     
     def forcast(slef, city:str):
         # TODO
