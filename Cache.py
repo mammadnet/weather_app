@@ -1,4 +1,5 @@
 import redis
+import json
 
 class Cache:
     
@@ -10,8 +11,15 @@ class Cache:
         self.expire_time = expire_time
         
     
-    def add(self, key, value):
+    def add(self, data):
+        key = data['location']['name'].lower()
+        data_dumped = json.dumps(data)
+        value = data_dumped
         self.r.setex(name=key, time=self.expire_time, value=value)
         
     def get(self,key):
-        return self.r.get(key)
+        data = self.r.get(key.lower())
+        if data:
+            return json.loads(data)
+        else:
+            return None

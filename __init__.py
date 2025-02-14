@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from dotenv import load_dotenv
-import json
 import os
 
 from Weather import Weather
@@ -36,11 +35,10 @@ def get_data(*cities):
     for city in cities:
         cached = cache.get(city)
         if cached:
-            res.append(json.loads(cached))
+            res.append(cached)
         else:
             fetched = weather.current(city)
-            fetched_dumped = json.dumps(fetched)
-            cache.add(city, fetched_dumped)
+            cache.add(fetched)
             res.append(fetched)
     return res
     
