@@ -99,6 +99,27 @@ function autocomplete(inp, arr) {
 // test = ['mohsen', 'hassan', 'ghoitas', 'gardolog']
 // autocomplete(search_box, test)
 
+let loaded_city = {}
+
+function update_city_status(data){
+  city_name = data['location']['name'].toLowerCase()
+  node = loaded_city[city_name]
+
+  // Update weather status icon
+  icon = node.querySelector('img')
+  icon.src = "https:"+data['corrent']['condition']['icon']
+
+  // Update content of a node
+  title = node.querySelector('span.title')
+  title.innerText = data['location']['name']
+
+  subtitle = node.querySelector('span.subtitle')
+  subtitle.innerText = `${data['current']['temp_c']}`
+
+  discription = node.querySelector('span.subtitle')
+  discription.innerText = data['current']['condition']['text']
+
+}
 
 function addCity(data) {
   let content_block = document.getElementById('contentBlock')
@@ -124,7 +145,7 @@ function addCity(data) {
               <span class="title">${ data['location']['name'] }</span>
               <br>
               <span class="subtitle">${ data['current']['temp_c'] }° C</span>
-              <br> ${ data['current']['condition']['text']}
+              <span class="discription">${ data['current']['condition']['text']}° C</span>
           </p>
       </div>
   </div>
@@ -134,9 +155,21 @@ function addCity(data) {
   article.innerHTML += media_content
   content_block.appendChild(box)
 
+  loaded_city[data['location']['name'].toLowerCase()] = box
 
 }
 
+function update_content(data){
+  city_name = data['location']['name'].toLowerCase()
+
+  if (city_name in loaded_city){
+    update_city_status(city_name)
+  }else{
+
+    addCity(data)
+  }
+
+}
 
 document.getElementById('addForm').addEventListener('submit', (event) => {
   event.preventDefault()
@@ -148,6 +181,6 @@ document.getElementById('addForm').addEventListener('submit', (event) => {
     headers: { 'Content-Type': 'application/json' },
   })
     .then(res => res.json())
-    .then(data => addCity(data))
+    .then(data => update_content(data))
 
 })
