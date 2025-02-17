@@ -12,27 +12,6 @@ weather
     <div class="container">
         <div class="columns">
             <div id="contentBlock" class="column is-offset-4 is-4">
-                {% for weather in weathers %}
-                <div class="box">
-                    <article class="media">
-                        <div class="media-left">
-                            <figure class="image is-50x50">
-                                <img src="https:{{weather['current']['condition']['icon']}}" alt="Image">
-                            </figure>
-                        </div>
-                        <div class="media-content">
-                            <div class="content">
-                                <p>
-                                    <span class="title">{{ weather['location']['name'] }}</span>
-                                    <br>
-                                    <span class="subtitle">{{ weather['current']['temp_c'] }}° C</span>
-                                    <br> {{ weather['current']['condition']['text'] }}
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                {% endfor %}
             </div>
         </div>
     </div>

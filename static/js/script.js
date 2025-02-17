@@ -130,7 +130,6 @@ function addCity(data) {
   article.classList.add('media')
   box.appendChild(article)
 
-  console.log(data)
   let div_icon = `
   <div class="media-left">
       <figure class="image is-50x50">
@@ -145,6 +144,7 @@ function addCity(data) {
               <span class="title">${ data['location']['name'] }</span>
               <br>
               <span class="subtitle">${ data['current']['temp_c'] }° C</span>
+              <br>
               <span class="discription">${ data['current']['condition']['text']}° C</span>
           </p>
       </div>
@@ -169,6 +169,29 @@ function update_content(data){
     addCity(data)
   }
 
+}
+
+function fetch_default_items(){
+  fetch('api/default-items', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  .then(res => res.json())
+  .then(items => render_default_items(items))
+  .catch(err=>console.log(err))
+
+}
+
+function render_default_items(items){
+  items.forEach(item => {
+    fetch(`/api/${item}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(data => update_content(data))
+    .catch(err=>console.log(err))
+  })
 }
 
 document.getElementById('addForm').addEventListener('submit', (event) => {
