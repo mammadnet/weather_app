@@ -1,4 +1,4 @@
-from flask import Flask,Response, render_template
+from flask import Flask,Response, render_template, send_from_directory
 from dotenv import load_dotenv
 import os
 
@@ -43,6 +43,9 @@ def get_data(*cities):
     return res
     
     
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'favicon.ico')
 
 
 if __name__ == '__main__':
