@@ -1,4 +1,4 @@
-from flask import Flask,Response, render_template, send_from_directory
+from flask import Flask,Response, render_template, send_from_directory, jsonify, abort
 from dotenv import load_dotenv
 import os
 
@@ -18,6 +18,9 @@ def index():
 @app.route('/api/<city>')
 def city_weather(city):
     data = get_data(city)
+    if data[0] == None:
+        return abort(404, 'request not available')
+    print(data)
     return data[0]
 
 @app.route('/api/default-items')
@@ -38,7 +41,7 @@ def get_data(*cities):
             res.append(cached)
         else:
             fetched = weather.current(city)
-            cache.add(fetched)
+            if fetched: cache.add(fetched)
             res.append(fetched)
     return res
     
@@ -47,6 +50,13 @@ def get_data(*cities):
 def favicon():
     return send_from_directory('static', 'favicon.ico')
 
+@app.errorhandler(404)
+def not_found(err):
+    return jsonify({
+        'error':'Not Found',
+        'message': err.description,
+        'status_code': 404
+    }), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
