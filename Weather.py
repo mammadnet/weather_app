@@ -27,10 +27,19 @@ class Weather:
         
         params = {'q':city}
         url = self._make_url(path, params)
-        
-        res = requests.get(url)
-        data = self._simplify(res.json())
-        return data
+        try:
+            
+            res = requests.get(url)
+            res.raise_for_status()
+            data = self._simplify(res.json())
+            return data
+        except requests.exceptions.HTTPError as err:
+            if res.status_code == 400:
+                #### TODO ####
+                return None
+            else:
+                ## TODO Write to the log file
+                print(err)
     
     def forcast(slef, city:str):
         # TODO
