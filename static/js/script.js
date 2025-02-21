@@ -182,16 +182,16 @@ function fetch_default_items(){
 
 }
 
-function render_default_items(items){
-  items.forEach(item => {
-    fetch(`/api/${item}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
-    .then(res => res.json())
-    .then(data => update_content(data))
-    .catch(err=>console.log(err))
-  })
+async function render_default_items(items){
+  try {
+    const responses = await Promise.all(items.map(item => fetch(`/api/${item}`)))
+    const data = await Promise.all(responses.map(res => res.json()))
+    Promise.all(data.map(d => update_content(d)))
+  }
+  catch(err){
+    console.error("Error fetching data:", error);
+  }
+
 }
 
 document.getElementById('addForm').addEventListener('submit', (event) => {
