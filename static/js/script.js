@@ -101,13 +101,13 @@ function autocomplete(inp, arr) {
 
 let loaded_city = {}
 
-function update_city_status(data){
+function update_city_status(data) {
   city_name = data['location']['name'].toLowerCase()
   node = loaded_city[city_name]
 
   // Update weather status icon
   icon = node.querySelector('img')
-  icon.src = "https:"+data['corrent']['condition']['icon']
+  icon.src = "https:" + data['corrent']['condition']['icon']
 
   // Update content of a node
   title = node.querySelector('span.title')
@@ -124,71 +124,91 @@ function update_city_status(data){
 function addCity(data) {
   let content_block = document.getElementById('contentBlock')
 
-  let box = document.createElement('div')
-  box.classList.add('box')
-  let article = document.createElement('article')
-  article.classList.add('media')
-  box.appendChild(article)
+  let name = data['location']['name']
+  let temp_c = data['current']['temp_c']
+  let condition_text = data['current']['condition']['text']
+  let icon_url = data['current']['condition']['icon']
+console.log(name)
+  let item = document.createElement('div')
+  item.classList.add('col-6', 'col-sm-6', 'col-md-4', 'col-lg-3', 'px-3')
+ 
+  let weather_content = `
+    <div class="row d-flex justify-content-center py-3">
+        <div class="card text-body p-0" style=" border-radius: 35px;">
+            <div class="card-body p-3 px-0 p-sm-3">
 
-  let div_icon = `
-  <div class="media-left">
-      <figure class="image is-50x50">
-          <img src="https:${data['current']['condition']['icon']}" alt="Image">
-      </figure>
-  </div>
+                <div class="d-flex">
+                    <h6 class="flex-grow-1">${name}</h6>
+                    <h6>15:07</h6>
+                </div>
+
+                <div class="d-flex flex-column text-center m-2 mt-sm-5 mb-sm-4">
+                    <h6 class="display-5 display-sm-4 mb-0 font-weight-bold"> ${temp_c}°C </h6>
+                    <span class="small" style="color: #868B94">${condition_text}</span>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 detail" style="font-size: 1rem;">
+                        <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span
+                                class="ms-0 ms-sm-1">
+                                40 km/h
+                            </span>
+                        </div>
+                        <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span
+                                class="ms-0 ms-sm-1">
+                                84%
+                            </span></div>
+                        <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span
+                                class="ms-0 ms-sm-1">
+                                0.2h
+                            </span></div>
+                    </div>
+                    <div class="">
+                        <img src="https:${icon_url}"
+                            width="80px">
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
   `
-  let media_content = `
-  <div class="media-content">
-      <div class="content">
-          <p>
-              <span class="title">${ data['location']['name'] }</span>
-              <br>
-              <span class="subtitle">${ data['current']['temp_c'] }° C</span>
-              <br>
-              <span class="discription">${ data['current']['condition']['text']}° C</span>
-          </p>
-      </div>
-  </div>
-  `
+  item.innerHTML += weather_content
+  content_block.appendChild(item)
 
-  article.innerHTML += div_icon
-  article.innerHTML += media_content
-  content_block.appendChild(box)
-
-  loaded_city[data['location']['name'].toLowerCase()] = box
+  loaded_city[data['location']['name'].toLowerCase()] = item
 
 }
 
-function update_content(data){
+function update_content(data) {
   city_name = data['location']['name'].toLowerCase()
 
-  if (city_name in loaded_city){
+  if (city_name in loaded_city) {
     update_city_status(city_name)
-  }else{
+  } else {
 
     addCity(data)
   }
 
 }
 
-function fetch_default_items(){
+function fetch_default_items() {
   fetch('api/default-items', {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })
-  .then(res => res.json())
-  .then(items => render_default_items(items))
-  .catch(err=>console.log(err))
+    .then(res => res.json())
+    .then(items => render_default_items(items))
+    .catch(err => console.log(err))
 
 }
 
-async function render_default_items(items){
+async function render_default_items(items) {
   try {
     const responses = await Promise.all(items.map(item => fetch(`/api/${item}`)))
     const data = await Promise.all(responses.map(res => res.json()))
     Promise.all(data.map(d => update_content(d)))
   }
-  catch(err){
+  catch (err) {
     console.error("Error fetching data:", error);
   }
 

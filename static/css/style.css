@@ -1,85 +1,83 @@
-label{
-  color:#000;
-  font-weight:500;
-  background:#fff;
-  margin-bottom:5px;
-  padding:4px;
-  border-radius:4px;
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
+
+body {
+    margin: 0;
+    background: #bcb5b5;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 800;
 }
-input{
-  margin-bottom:10px
+
+header {
+    background: #55d6aa;
 }
-.sub-bg {
-		background: url('https://the-french.co.uk/wp-content/uploads/2018/02/111-400x600.jpg')no-repeat;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		}
-		.subs-header{
-		padding-top: 0px;
-		border-bottom: 0px;
-		}
-		.heading-text h4{
-		color: #fff;
-		padding: 20px;
-		border: 2px solid #d3d3d3;
-		display: inline-block;
-		border-radius: 20px;
-		box-shadow: inset 10px 12px 13px -7px rgba(0,0,0,0.7);
-		-moz-box-shadow: inset 10px 12px 13px -7px rgba(0,0,0,0.7);
-		-webkit-box-shadow: inset 10px 12px 13px -7px rgba(0,0,0,0.7);
-		-o-box-shadow: inset 10px 12px 13px -7px rgba(0,0,0,0.7);
-		}
-		.heading-text{
-		margin-top: 10px;
-	}
-.close:not(:disabled):not(.disabled):focus, .close:not(:disabled):not(.disabled):hover {
-    outline: none;
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    height: 40px;
+    align-items: center;
 }
 
 
-.autocomplete {
-	/*the container must be positioned relative:*/
-	position: relative;
-	display: inline-block;
-  }
-  input {
-	border: 1px solid transparent;
-	background-color: #f1f1f1;
-	padding: 10px;
-	font-size: 16px;
-  }
-  input[type=text] {
-	background-color: #f1f1f1;
-	width: 100%;
-  }
-  input[type=submit] {
-	background-color: DodgerBlue;
-	color: #fff;
-  }
-  .autocomplete-items {
-	position: absolute;
-	border: 1px solid #d4d4d4;
-	border-bottom: none;
-	border-top: none;
-	z-index: 99;
-	/*position the autocomplete items to be the same width as the container:*/
-	top: 100%;
-	left: 0;
-	right: 0;
-  }
-  .autocomplete-items div {
-	padding: 10px;
-	cursor: pointer;
-	background-color: #fff;
-	border-bottom: 1px solid #d4d4d4;
-  }
-  .autocomplete-items div:hover {
-	/*when hovering an item:*/
-	background-color: #e9e9e9;
-  }
-  .autocomplete-active {
-	/*when navigating through the items using the arrow keys:*/
-	background-color: DodgerBlue !important;
-	color: #ffffff;
-  }
+header::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+nav {
+    float: right;
+}
+
+nav ul {
+    text-align: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 70px;
+    /* padding-top: 30px; */
+
+    position: relative;
+}
+
+nav a {
+    color: #444;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #000;
+}
+
+nav a::before {
+    content: '';
+    display: block;
+    height: 5px;
+    background-color: #444;
+
+    position: absolute;
+    top: -10px;
+    width: 0%;
+
+    transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+    width: 100%;
+}
+
+
+.search-bar {
+	/* display: flex; */
+    text-align: center;
+    margin: auto;
+	margin-top: 20px;
+}
