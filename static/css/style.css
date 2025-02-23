@@ -81,3 +81,25 @@ nav a:hover::before {
     margin: auto;
 	margin-top: 20px;
 }
+
+.country {
+    position: relative;
+    top: -12px;
+}
+
+.bold {
+    font-weight: bolder;
+
+}
+
+.f-italic {
+    font-style: italic;
+    font-size: smaller;
+
+}
+
+.detail {
+    font-size: small;
+    font-weight: normal;
+    font-style: italic;
+}

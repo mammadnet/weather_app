@@ -126,8 +126,14 @@ function addCity(data) {
 
   let name = data['location']['name']
   let temp_c = data['current']['temp_c']
-  let condition_text = data['current']['condition']['text']
+  let feelslike = data['current']['feelslike_c']
+  let condition_text = data['current']['condition']['text'].split(" ")[0]
   let icon_url = data['current']['condition']['icon']
+  let country = data['location']['country']
+  let local_time = data['location']['localtime'].split(' ')[1]
+
+  let last_updated = data['current']['last_updated'].replaceAll('-', '').replace(' ', ',').slice(2)
+
 console.log(name)
   let item = document.createElement('div')
   item.classList.add('col-6', 'col-sm-6', 'col-md-4', 'col-lg-3', 'px-3')
@@ -138,8 +144,11 @@ console.log(name)
             <div class="card-body p-3 px-0 p-sm-3">
 
                 <div class="d-flex">
-                    <h6 class="flex-grow-1">${name}</h6>
-                    <h6>15:07</h6>
+                    <h6 class="flex-grow-1 bold">${name}</h6>
+                    <h6>${local_time}</h6>
+                </div>
+                <div>
+                    <h6 class="f-italic country">${country}</h6>
                 </div>
 
                 <div class="d-flex flex-column text-center m-2 mt-sm-5 mb-sm-4">
@@ -148,19 +157,19 @@ console.log(name)
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <div class="flex-grow-1 detail" style="font-size: 1rem;">
-                        <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span
+                    <div class="flex-grow-1 detail">
+                        <div><i class="fas fa-wind fa-fw"></i> <span
                                 class="ms-0 ms-sm-1">
-                                40 km/h
+                                feelslike: ${feelslike}°C
                             </span>
                         </div>
                         <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span
                                 class="ms-0 ms-sm-1">
-                                84%
+                                last updated
                             </span></div>
                         <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span
                                 class="ms-0 ms-sm-1">
-                                0.2h
+                                ${last_updated}
                             </span></div>
                     </div>
                     <div class="">
