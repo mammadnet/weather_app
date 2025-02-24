@@ -59,4 +59,4 @@ def not_found(err):
     }), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=os.getenv('LISTEN_PORT'))
