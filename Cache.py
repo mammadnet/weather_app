@@ -3,8 +3,8 @@ import json
 
 class Cache:
     
-    def __init__(self, expire_time, host='localhost', port=6379):
-        self.r = redis.Redis(host, port, decode_responses=True)
+    def __init__(self, expire_time, host='localhost', port=6379, password=None):    
+        self.r = redis.Redis(host, port, password=password,decode_responses=True)
         self.r.config_set('maxmemory', '200mb')
         self.r.config_set('maxmemory-policy', 'allkeys-lru')
         

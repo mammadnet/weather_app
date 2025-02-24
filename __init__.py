@@ -9,7 +9,7 @@ load_dotenv()
 app = Flask(__name__)
 
 weather = Weather(os.getenv('WEATHER_API_KEY'))
-cache = Cache(expire_time=60*30)
+cache = Cache(expire_time=60*30, host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'), password=os.getenv('REDIS_PASSWORD'))
 
 @app.route('/')
 def index():    
